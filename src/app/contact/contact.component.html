@@ -1,0 +1,67 @@
+<h2>Registration</h2>
+<form class="form-horizontal" [formGroup]="testForm" >
+
+  <div class="form-group">
+    <div class="col-sm-12">
+      <label class="control-label required">Name</label>
+      <input type="text" [(ngModel)]="register.name" class="form-control" formControlName="name">
+    </div>
+  </div>
+  <p *ngIf="!testForm.controls['name'].valid && testForm.controls['name'].touched"> Name required </p>
+
+  <div class="form-group">
+    <div class="col-sm-12">
+      <label class="control-label required">Email</label>
+      <input type="text" [(ngModel)]="register.email" class="form-control" formControlName="email">
+    </div>
+  </div>
+
+  <div class="form-group">
+      <div class="col-sm-12">
+      <label class="control-label required">Mobile</label>
+      <input type="number" [(ngModel)]="register.mobile" class="form-control" formControlName="number">
+  </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-12">
+      <label class="control-label required">Address</label>&nbsp;&nbsp;
+      <input type="text" [(ngModel)]="register.address" class="form-control" formControlName="address">
+    </div>
+  </div>
+
+  <input class="btn btn-primary" (click)="registerUser()" [disabled]="!testForm.valid" type="submit" value="Register">
+</form> 
+<!-- <button><a routerLink="/search">start page</a></button> -->
+<h2>Listing Page</h2>
+<button class="btn" (click)="getUser()"> Load Users</button>
+<tbody>
+  <table class="table table-striped">
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Mobile</th>
+    <th>Address</th>
+    <th>Status</th>
+    
+  </tr>
+  <tr *ngFor="let user of userDetails">
+    <td>{{user.id}}</td>
+    <td >{{user.name}}</td>
+    <td>{{user.email}}</td>
+    <td>{{user.mobile}}</td>
+    <td>{{user.address}}</td>
+    <td>
+      <!-- <a class="btn" (click)="showForEdit(user)"> -->
+        <i class="fa fa-pencil-square-o"></i>
+      <!-- </a> -->
+      <a class="btn text-danger" (click)="onDelete(user.id)">
+        <i class="fa fa-trash-o"></i>
+      </a>
+    </td>
+    <!-- <td><a routerLink=""><i style="font-size:12px;color:cyan;align-self: center" class="fa">&#xf044;</i></a></td>
+    <td><a routerLink=""><i style="font-size:12px;color:red" class="glyphicon glyphicon-trash"></i></a></td> -->
+  </tr>
+</table>
+</tbody>
+

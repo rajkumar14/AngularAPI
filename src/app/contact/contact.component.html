@@ -4,7 +4,7 @@
   <div class="form-group">
     <div class="col-sm-12">
       <label class="control-label required">Name</label>
-      <input type="text" [(ngModel)]="register.name" class="form-control" formControlName="name">
+      <input type="text" class="form-control" formControlName="name">
     </div>
   </div>
   <p *ngIf="!testForm.controls['name'].valid && testForm.controls['name'].touched"> Name required </p>
@@ -12,24 +12,25 @@
   <div class="form-group">
     <div class="col-sm-12">
       <label class="control-label required">Email</label>
-      <input type="text" [(ngModel)]="register.email" class="form-control" formControlName="email">
+      <input type="text" class="form-control" formControlName="email">
     </div>
   </div>
 
   <div class="form-group">
       <div class="col-sm-12">
       <label class="control-label required">Mobile</label>
-      <input type="number" [(ngModel)]="register.mobile" class="form-control" formControlName="number">
+      <input type="text"  class="form-control" formControlName="mobile">
   </div>
   </div>
   <div class="form-group">
     <div class="col-sm-12">
       <label class="control-label required">Address</label>&nbsp;&nbsp;
-      <input type="text" [(ngModel)]="register.address" class="form-control" formControlName="address">
+      <input type="text"  class="form-control" formControlName="address">
     </div>
   </div>
 
-  <input class="btn btn-primary" (click)="registerUser()" [disabled]="!testForm.valid" type="submit" value="Register">
+  <input class="btn btn-primary" (click)="registerUser()" [disabled]="!testForm.valid" type="submit" [value]="(mode=='add')?'Register':'Update'">
+  <input class="btn btn-primary" (click)="cancelEdit()"  *ngIf="mode=='edit'" value="Cancel">
 </form> 
 <!-- <button><a routerLink="/search">start page</a></button> -->
 <h2>Listing Page</h2>
@@ -52,9 +53,9 @@
     <td>{{user.mobile}}</td>
     <td>{{user.address}}</td>
     <td>
-      <!-- <a class="btn" (click)="showForEdit(user)"> -->
+      <a class="btn" (click)="showForEdit(user)"> 
         <i class="fa fa-pencil-square-o"></i>
-      <!-- </a> -->
+      </a>
       <a class="btn text-danger" (click)="onDelete(user.id)">
         <i class="fa fa-trash-o"></i>
       </a>

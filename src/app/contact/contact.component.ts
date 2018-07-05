@@ -12,15 +12,16 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ContactComponent implements OnInit {
   register;
+  mode = 'add';
   userDetails = new Array();
   testForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    number : new FormControl(''),
+    mobile : new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
     address : new FormControl('', [Validators.required])
   });
   constructor(private userService: UsersService, private toastr: ToastrService) {
-    // this.getUser();
+    this.getUser();
 
    }
 
@@ -42,27 +43,47 @@ export class ContactComponent implements OnInit {
     });
   }
   registerUser() {
-    this.userService.registerNewUser(this.register).subscribe(
-    response => {
-      alert('User ' + this.register.name + 'has been created');
-    },
-    error => {
-      console.log('error', error);
-
+    if ( this.mode === 'add') {
+      this.userService.registerNewUser(this.testForm.value).subscribe(
+        response => {
+          this.getUser();
+          alert('User ' + 'has been created');
+        },
+        error => {
+          console.log('error', error);
+        });
+    } else {
+      this.userService.editStudent(this.register).subscribe(
+        response => {
+          this.getUser();
+          // alert('User ' + this.register.name + 'has been created');
+        },
+        error => {
+          console.log('error', error);
+        });
     }
-  );
   }
-  // showForEdit(emp: UsersService) {
-  //   this.userService.selectedStudent = Object.assign({}, emp);
-  // }
+  showForEdit(user) {
+    this.mode = 'edit';
+    alert(JSON.stringify(user));
+    this.testForm.controls['name'].setValue(user.name);
+    this.testForm.controls['email'].setValue(user.email);
+    this.testForm.controls['mobile'].setValue(user.mobile);
+    this.testForm.controls['address'].setValue(user.address);
+  }
   onDelete(id: number) {
     if (confirm('Are you sure to delete this record ?') === true) {
       this.userService.deleteStudent(id)
       .subscribe(x => {
-        this.userService.getUser();
+        // this.userService.getUser();
+        this.getUser();
         this.toastr.warning('Deleted Successfully', 'Employee Register');
       });
     }
+  }
+  cancelEdit() {
+    this.mode = 'add';
+    this.testForm.reset();
   }
   // tslint:disable-next-line:member-ordering
 submit() {
